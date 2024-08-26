@@ -1,12 +1,12 @@
 
 
+
 namespace Cadeteria
 {
 
-    enum Estado{
-        aprobado,
-        rechazado,
-        pendiente
+    public enum Estado{
+        Entregado,
+        Pendiente
     };
 
 
@@ -18,14 +18,21 @@ namespace Cadeteria
         private Cliente cliente;
         private Estado estadoPedido;
 
-        public Pedido(string nombre, string direccion , int telefono, string datosReferenciaDireccion)
+        public Pedido(int nro, string obs , Cliente cliente, Estado estadoPedido)
         {
-            this.cliente = new Cliente(){
-                Nombre = nombre,
-                Direccion = direccion,
-                Telefono = telefono,
-                DatosReferenciaDireccion = datosReferenciaDireccion
-                };
+            Nro = nro;
+            Obs = obs;
+            Cliente = cliente;
+            EstadoPedido = estadoPedido;
+        }
+
+        public void verDireccionCliente(){
+            Console.WriteLine($"Direccion: {cliente.Direccion}");
+        }
+
+        public void verDatosCliente(){
+            Console.WriteLine($"El nombre del cliente es: {cliente.Nombre}");
+            Console.WriteLine($"El telefono es: {cliente.Telefono}");
         }
 
         public int Nro { get => nro; set => nro = value; }
@@ -41,6 +48,25 @@ namespace Cadeteria
         private string direccion;
         private int telefono;
         private string datosReferenciaDireccion;
+        private string nombreCliente;
+        private string direccionCliente;
+        private int telefonoCliente;
+
+        public Cliente(string nombreCliente, string direccionCliente, int telefonoCliente)
+        {
+            this.nombreCliente = nombreCliente;
+            this.direccionCliente = direccionCliente;
+            this.telefonoCliente = telefonoCliente;
+        }
+
+        public Cliente(string nombre, string direccion, int telefono, string datosReferenciaDireccion){
+
+            Nombre = nombre;
+            Direccion = direccion;
+            Telefono = telefono;
+            DatosReferenciaDireccion = datosReferenciaDireccion;
+
+        }
 
         public string Nombre { get => nombre; set => nombre = value; }
         public string Direccion { get => direccion; set => direccion = value; }
@@ -53,22 +79,43 @@ namespace Cadeteria
         private int id;
         private string nombre;
         private string direccion;
+        private List <Pedido> listadoPedidos;
+        public int Id { get => id; set => id = value; }
+        public string Nombre { get => nombre; set => nombre = value; }
+        public string Direccion { get => direccion; set => direccion = value; }
+        public List<Pedido> ListadoPedidos { get => listadoPedidos; set => listadoPedidos = value; }
 
-        private List <Pedido> ListadoPedidos;
-
-        public Cadete(){
-            this.ListadoPedidos = new List<Pedido>();
+        public Cadete(int id, string nombre, string direccion){
+            Id = id;
+            Nombre = nombre;
+            Direccion = direccion;
+            listadoPedidos = new List<Pedido>();
         }
 
         public void AgregarPedidos(Pedido pedido)
         {
-            this.ListadoPedidos.Add(pedido);
+            listadoPedidos.Add(pedido);
         }
 
-        public int Id { get => id; set => id = value; }
-        public string Nombre { get => nombre; set => nombre = value; }
-        public string Direccion { get => direccion; set => direccion = value; }
-        public List<Pedido> ListadoPedidos1 { get => ListadoPedidos; set => ListadoPedidos = value; }
+        public void EliminarPedidos(Pedido pedido){
+            listadoPedidos.Remove(pedido);
+        }
+
+        public void CantidadPedidos(){
+            Console.WriteLine($"La cantidad de pedidos a entregar es: {listadoPedidos.Count}");
+        }
+
+        public float JornalACobrar()
+{
+    float jornal = ListadoPedidos.Count * 500;
+    Console.WriteLine($"La cantidad a cobrar es: {jornal}");
+    return jornal; // Si necesitas usar el valor en otros lugares
+}
+
+        internal void EliminarPedido(Pedido pedido)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class Cadeteria{
@@ -77,7 +124,13 @@ namespace Cadeteria
         private int telefono;
         private List<Cadete> listadoCadetes;
 
-        public Cadeteria(){
+        public string Nombre { get => nombre; set => nombre = value; }
+        public int Telefono { get => telefono; set => telefono = value; }
+        public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
+
+        public Cadeteria(string nombre, int telefono){
+            Nombre = nombre;
+            Telefono = telefono;
             this.listadoCadetes = new List<Cadete>();
         }
 
@@ -86,9 +139,102 @@ namespace Cadeteria
             this.listadoCadetes.Add(cadete);
         }
 
-        public string Nombre { get => nombre; set => nombre = value; }
-        public int Telefono { get => telefono; set => telefono = value; }
-        public List<Cadete> ListadoCadetes { get => listadoCadetes; set => listadoCadetes = value; }
+        
+    public void AsignarPedido(Pedido pedido)
+    {
+        if (listadoCadetes.Count == 0)
+        {
+            Console.WriteLine("No hay cadetes disponibles para asignar el pedido.");
+            return;
+        }
+
+        // Crear una instancia de Random para seleccionar un cadete al azar
+        Random random = new Random();
+
+        // Seleccionar un índice aleatorio de la lista de cadetes
+        int index = random.Next(listadoCadetes.Count);
+
+        // Obtener el cadete al azar
+        Cadete cadete = listadoCadetes[index];
+
+        // Asignar el pedido al cadete
+        cadete.AgregarPedidos(pedido);
+
+        // Mostrar un mensaje de confirmación
+        Console.WriteLine($"El pedido ha sido asignado al cadete: {cadete.Nombre}");
+    }
+        public void ReasignarPedido(Pedido pedido, Cadete nuevoCadete)
+        {
+    
+            var cadeteActual = ObtenerCadeteConPedido(pedido);
+
+    
+            if (cadeteActual != null)
+            {
+                cadeteActual.EliminarPedido(pedido);
+            }
+            else
+            {
+                Console.WriteLine("El pedido no estaba asignado a ningún cadete.");
+            }
+
+    
+            nuevoCadete.AgregarPedidos(pedido);
+            Console.WriteLine($"El pedido fue asignado al nuevo cadete: {nuevoCadete.Nombre}");
+        }
+
+        private Cadete ObtenerCadeteConPedido(Pedido pedido)
+        {
+    
+            foreach (var cadete in ListadoCadetes)
+            {
+        // Verificamos si el pedido está en la lista de pedidos del cadete actual
+                if (cadete.ListadoPedidos.Contains(pedido))
+                {
+            
+                    return cadete;
+                }
+            }
+
+   
+            return null;
+        }
+
+        public void Informe(){
+
+            System.Console.WriteLine("Informe de pedidos");
+
+            foreach(var cadete in ListadoCadetes){
+
+                Console.WriteLine($"Cadete: {cadete.Nombre}, Envíos: {cadete.ListadoPedidos.Count}, Ganancias: ${cadete.JornalACobrar()}");
+                
+            }
+
+
+        }
+
+        public Pedido CargarPedido(){
+                        Console.Write("Número de pedido: ");
+                        int nro = int.Parse(Console.ReadLine());
+
+                        Console.Write("Observaciones: ");
+                        string obs = Console.ReadLine();
+
+                        Console.Write("Nombre del cliente: ");
+                        string nombreCliente = Console.ReadLine();
+
+                        Console.Write("Dirección del cliente: ");
+                        string direccionCliente = Console.ReadLine();
+
+                        Console.Write("Teléfono del cliente: ");
+                        int telefonoCliente = int.Parse(Console.ReadLine());
+
+                        var cliente = new Cliente(nombreCliente, direccionCliente, telefonoCliente);
+                        return new Pedido(nro, obs, cliente, Estado.Pendiente);
+        }
+
+
+        
     }
 
 
