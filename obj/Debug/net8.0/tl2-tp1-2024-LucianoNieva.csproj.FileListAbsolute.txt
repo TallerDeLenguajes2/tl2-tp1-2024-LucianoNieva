@@ -27,3 +27,4 @@ C:\Users\lucia\OneDrive\Escritorio\tallertp\tl2-tp1-2024-LucianoNieva\obj\Debug\
 C:\Users\lucia\OneDrive\Escritorio\tallertp\tl2-tp1-2024-LucianoNieva\obj\Debug\net8.0\tl2-tp1-2024-LucianoNieva.pdb
 C:\Users\lucia\OneDrive\Escritorio\tallertp\tl2-tp1-2024-LucianoNieva\obj\Debug\net8.0\tl2-tp1-2024-LucianoNieva.genruntimeconfig.cache
 C:\Users\lucia\OneDrive\Escritorio\tallertp\tl2-tp1-2024-LucianoNieva\obj\Debug\net8.0\ref\tl2-tp1-2024-LucianoNieva.dll
+D:\Facultad\Taller2\tl2-tp1-2024-LucianoNieva\obj\Debug\net8.0\tl2-tp1-2024-LucianoNieva.sourcelink.json

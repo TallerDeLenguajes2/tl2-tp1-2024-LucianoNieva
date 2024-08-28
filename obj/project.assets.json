@@ -8,19 +8,19 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\lucia\\.nuget\\packages\\": {}
+    "C:\\Users\\Windows 10\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucia\\OneDrive\\Escritorio\\tallertp\\tl2-tp1-2024-LucianoNieva\\tl2-tp1-2024-LucianoNieva.csproj",
+      "projectUniqueName": "D:\\Facultad\\Taller2\\tl2-tp1-2024-LucianoNieva\\tl2-tp1-2024-LucianoNieva.csproj",
       "projectName": "tl2-tp1-2024-LucianoNieva",
-      "projectPath": "C:\\Users\\lucia\\OneDrive\\Escritorio\\tallertp\\tl2-tp1-2024-LucianoNieva\\tl2-tp1-2024-LucianoNieva.csproj",
-      "packagesPath": "C:\\Users\\lucia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucia\\OneDrive\\Escritorio\\tallertp\\tl2-tp1-2024-LucianoNieva\\obj\\",
+      "projectPath": "D:\\Facultad\\Taller2\\tl2-tp1-2024-LucianoNieva\\tl2-tp1-2024-LucianoNieva.csproj",
+      "packagesPath": "C:\\Users\\Windows 10\\.nuget\\packages\\",
+      "outputPath": "D:\\Facultad\\Taller2\\tl2-tp1-2024-LucianoNieva\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lucia\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Windows 10\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -64,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
