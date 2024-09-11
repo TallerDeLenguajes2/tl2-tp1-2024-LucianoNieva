@@ -246,10 +246,7 @@ namespace Cadeteria
             Console.WriteLine("\n Se cambio el estado del pedido a ENTREGADO");
         }
 
-        public float 
-        
-        
-        JornalACobrar(int id)
+        public float JornalACobrar(int id)
         {
             int contarPedidos = listadoPedidos.Count(p => p.Cadete.Id == id);
             return contarPedidos*500;
