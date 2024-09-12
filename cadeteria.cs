@@ -29,7 +29,7 @@ namespace Cadeteria
             Cliente = cliente;
             EstadoPedido = estadoPedido;
             Cadete = cadete;
-            
+
         }
 
         public void verDireccionCliente()
@@ -91,43 +91,43 @@ namespace Cadeteria
         private int id;
         private string nombre;
         private string direccion;
-        
+
         public int Id { get => id; set => id = value; }
         public string Nombre { get => nombre; set => nombre = value; }
         public string Direccion { get => direccion; set => direccion = value; }
-        
+
         public Cadete(int id, string nombre, string direccion)
         {
             Id = id;
             Nombre = nombre;
             Direccion = direccion;
-           
+
         }
 
-    /*   
-        public void CantidadPedidos()
-        {
-            Console.WriteLine($"La cantidad de pedidos a entregar es: {listadoPedidos.Count}");
-        }
-
-       public void mostrarPedidos()
-        {
-
-            foreach (var item in ListadoPedidos)
+        /*   
+            public void CantidadPedidos()
             {
-                Console.WriteLine($"\nEl numero de pedido es: {item.Nro}");
-                Console.WriteLine($"\nEl estado del pedido es: {item.EstadoPedido}");
+                Console.WriteLine($"La cantidad de pedidos a entregar es: {listadoPedidos.Count}");
             }
 
-        }
+           public void mostrarPedidos()
+            {
 
-        public List<Pedido> devolverPedidos()
-        {
-            return listadoPedidos;
-        }
-*/
+                foreach (var item in ListadoPedidos)
+                {
+                    Console.WriteLine($"\nEl numero de pedido es: {item.Nro}");
+                    Console.WriteLine($"\nEl estado del pedido es: {item.EstadoPedido}");
+                }
 
-        
+            }
+
+            public List<Pedido> devolverPedidos()
+            {
+                return listadoPedidos;
+            }
+    */
+
+
 
         internal void EliminarPedido(Pedido pedido)
         {
@@ -162,72 +162,36 @@ namespace Cadeteria
             this.listadoCadetes.Add(cadete);
         }
 
-        public void ReasignarPedido(Pedido pedido)
+        public string ReasignarPedido(int nroPedido, int idCadete)
         {
-        
-            var otroCadete = devolverCadeteAleatorio();
-            pedido.Cadete = otroCadete;
-            Console.WriteLine($"El pedido fue asignado al nuevo cadete: {otroCadete.Nombre}");
-            
-            
+            var pedido = listadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
+            if (pedido == null) return "Pedido no encontrado";
+
+            var otroCadete = listadoCadetes.FirstOrDefault(p => p.Id == idCadete);
+            if (otroCadete == null) return "Cadete no encontrado";
+
+            if (pedido.Cadete.Id != idCadete)
+            {
+                pedido.Cadete = otroCadete;
+                return $"El pedido fue asignado al nuevo cadete: {otroCadete.Nombre}";
+            }
+            else
+            {
+                return "Se seleccionó el mismo cadete";
+            }
         }
 
 
-        public void AgregarPedidos(Pedido pedido)
-        {
-            listadoPedidos.Add(pedido);
-        }
 
-        public void EliminarPedidos(Pedido pedido)
+
+        public void EliminarPedidos(int nroPedido)
         {
+            var pedido = listadoPedidos.FirstOrDefault(p => p.Nro == nroPedido);
             listadoPedidos.Remove(pedido);
         }
 
-
-        public Cadete devolverCadeteAleatorio(){
-
-            Random random = new Random();
-            int index = random.Next(listadoCadetes.Count);
-
-            return listadoCadetes[index];
-        }
-
-        
-
-      /*  public void Informe()
+        public Pedido CargarPedido(int nro, string obs, string nombreCliente, string direccionCliente, int telefonoCliente)
         {
-
-            System.Console.WriteLine("Informe de pedidos");
-
-            foreach (var pedido in ListadoPedidos)
-            {
-
-                Console.WriteLine($"Cadete: {pedido.Cadete.Nombre}, Envíos: {.ListadoPedidos.Count}, Ganancias: ${cadete.JornalACobrar()}");
-
-            }
-
-
-        }
-*/
-        public Pedido CargarPedido()
-        {
-            Console.Write("Número de pedido: ");
-            int nro = int.Parse(Console.ReadLine());
-
-            Console.Write("Observaciones: ");
-            string obs = Console.ReadLine();
-
-            Console.Write("Nombre del cliente: ");
-            string nombreCliente = Console.ReadLine();
-
-            Console.Write("Dirección del cliente: ");
-            string direccionCliente = Console.ReadLine();
-
-            Console.Write("Teléfono del cliente: ");
-            int telefonoCliente = int.Parse(Console.ReadLine());
-
-            
-
             var cliente = new Cliente(nombreCliente, direccionCliente, telefonoCliente);
             return new Pedido(nro, obs, cliente, Estado.Pendiente, null);
         }
@@ -236,42 +200,85 @@ namespace Cadeteria
         {
 
             return listadoPedidos.FirstOrDefault(p => p.Nro == n);
-              
+
         }
 
-        public void CambiarEstadoPedido(Pedido pedido, Estado estado)
+        public string CambiarEstadoPedido(int idPedido)
         {
 
-            pedido.EstadoPedido = estado;
-            Console.WriteLine("\n Se cambio el estado del pedido a ENTREGADO");
+            var pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
+            pedido.EstadoPedido = Estado.Entregado;
+
+            return "\nSe cambio el pedido a entregado";
         }
 
         public float JornalACobrar(int id)
         {
             int contarPedidos = listadoPedidos.Count(p => p.Cadete.Id == id);
-            return contarPedidos*500;
+            return contarPedidos * 500;
         }
 
 
-        public void AsignarCadetePedido(int idPedido, int idCadete){
+        public string AsignarCadetePedido(int idPedido, int idCadete)
+        {
 
 
             var pedido = listadoPedidos.FirstOrDefault(p => p.Nro == idPedido);
 
             var cadete = listadoCadetes.FirstOrDefault(p => p.Id == idCadete);
 
-            
+            pedido.Cadete = cadete;
 
-            if (pedido != null && cadete != null)
-            {
-                pedido.Cadete = cadete;
-                Console.WriteLine($"El pedido {pedido.Nro} fue asignado al cadete {cadete.Nombre}");
-            }else
-            {
-                Console.WriteLine("vacio");
-            }
+            return $"El cadete {cadete.Nombre} fue asignado correctamente";
+
 
         }
+
+        public List<string> Informe()
+        {
+            List<string> informe = new List<string>
+    {
+        "=== Informe de Pedidos - Fin de Jornada ===\n"
+    };
+            foreach (var cadete in ListadoCadetes)
+            {
+
+                IEnumerable<Pedido> pedidosDelCadete = ListadoPedidos
+                    .Where(pedido => pedido.Cadete != null &&
+                                     pedido.Cadete.Id == cadete.Id &&
+                                     pedido.EstadoPedido == Estado.Entregado);
+
+                int cantidadEnvios = pedidosDelCadete.Count();
+                double montoGanado = JornalACobrar(cadete.Id);
+
+                informe.Add($"Cadete: {cadete.Nombre}");
+                informe.Add($"Cantidad de Envíos: {cantidadEnvios}");
+                informe.Add($"Monto Ganado: ${montoGanado}\n");
+            }
+
+            int totalEnvios = ListadoPedidos
+                .Count(pedido => pedido.EstadoPedido == Estado.Entregado);
+
+            double promedioEnvios = ListadoCadetes.Count > 0
+                ? (double)totalEnvios / ListadoCadetes.Count
+                : 0;
+
+            informe.Add($"Total de Envíos: {totalEnvios}");
+            informe.Add($"Promedio de Envíos por Cadete: {promedioEnvios:F2}\n");
+
+            return informe;
+        }
+
+        public void ImprimirInforme()
+        {
+            var informe = Informe(); // Obtener el informe como lista de cadenas
+            foreach (var linea in informe)
+            {
+                Console.WriteLine(linea); // Imprimir cada línea del informe
+            }
+        }
+
+
     }
 
 

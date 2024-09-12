@@ -41,13 +41,13 @@ class Program
                 break;
         }
 
-    
+
         foreach (var cadete in cadetes)
         {
-            cadeteria.agregarCadetes(cadete);
+            cadeteria.ListadoCadetes.Add(cadete);
         }
-    
-        
+
+
 
         // Mostrar la información cargada
         Console.WriteLine($"Cadetería: {cadeteria.Nombre}, Teléfono: {cadeteria.Telefono}");
@@ -73,11 +73,22 @@ class Program
             switch (opcion)
             {
                 case 1:
+                    Console.Write("Ingrese el número de pedido: ");
+                    int nro = int.Parse(Console.ReadLine());
+                    Console.Write("Ingrese la observación del pedido: ");
+                    string obs = Console.ReadLine();
+                    Console.Write("Ingrese el nombre del cliente: ");
+                    string nombreCliente = Console.ReadLine();
+                    Console.Write("Ingrese la dirección del cliente: ");
+                    string direccionCliente = Console.ReadLine();
+                    Console.Write("Ingrese el teléfono del cliente: ");
+                    int telefonoCliente = int.Parse(Console.ReadLine());
 
-                    var pedidoCargado = cadeteria.CargarPedido();
+                    var pedidoCargado = cadeteria.CargarPedido(nro, obs, nombreCliente, direccionCliente, telefonoCliente);
                     cadeteria.ListadoPedidos.Add(pedidoCargado);
                     Console.WriteLine("Pedido dado de alta");
                     break;
+
 
                 case 2:
                     Console.Write("\nNúmero de pedido: ");
@@ -86,28 +97,29 @@ class Program
                     Console.Write("\nNúmero de cadete: ");
                     int.TryParse(Console.ReadLine(), out int idCadete);
 
-                    cadeteria.AsignarCadetePedido(nroPedido, idCadete);
+                  Console.WriteLine(cadeteria.AsignarCadetePedido(nroPedido, idCadete));
                     break;
 
                 case 3:
                     Console.Write("Número de pedido a cambiar estado: ");
-                    int.TryParse(Console.ReadLine(), out int nro);
-
-                    var pedidoACambiar = cadeteria.buscarPedidoACambiar(nro); // Aquí deberías buscar el pedido real según el número
-                    cadeteria.CambiarEstadoPedido(pedidoACambiar, Estado.Entregado);
+                    int.TryParse(Console.ReadLine(), out int nroPedido1);
+                    Console.WriteLine(cadeteria.CambiarEstadoPedido(nroPedido1));
                     break;
+
 
                 case 4:
-                    Console.Write("Número de pedido a cambiar de cadete ");
-                    int.TryParse(Console.ReadLine(), out int numero);
+                    Console.Write("Número de pedido a reasignar: ");
+                    int.TryParse(Console.ReadLine(), out int nroPedidoReasignar);
 
-                    var pedido = cadeteria.buscarPedidoACambiar(numero);
+                    Console.Write("Nuevo número de cadete: ");
+                    int.TryParse(Console.ReadLine(), out int nuevoIdCadete);
 
-                    cadeteria.ReasignarPedido(pedido);
+                    Console.WriteLine(cadeteria.ReasignarPedido(nroPedidoReasignar, nuevoIdCadete));
                     break;
 
+
                 case 5:
-                    // Ver informe de pedidos
+                    cadeteria.ImprimirInforme();
                     break;
 
                 case 6:
