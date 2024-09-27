@@ -1,7 +1,7 @@
 ﻿using System;
 using Cadeteria;
 using CargarYLeerDatos;
-
+using cadete;
 class Program
 {
 

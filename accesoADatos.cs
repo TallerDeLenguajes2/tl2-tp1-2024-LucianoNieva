@@ -1,5 +1,6 @@
 using Cadeteria;
 using System.Text.Json;
+using cadete;
 
 namespace CargarYLeerDatos
 {
